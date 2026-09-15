@@ -1,0 +1,96 @@
+<div class="card">
+  <h1>Settings</h1>
+
+  <section>
+    <h2>Preferences</h2>
+
+    @if (preferencesSaved()) {
+      <div class="alert-success">Preferences saved.</div>
+    }
+
+    <form [formGroup]="preferencesForm" (ngSubmit)="savePreferences()">
+      <div class="field">
+        <label for="theme">Theme</label>
+        <select id="theme" formControlName="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="language">Language</label>
+        <select id="language" formControlName="language">
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="km">Khmer</option>
+        </select>
+      </div>
+
+      <div class="field checkbox">
+        <label>
+          <input type="checkbox" formControlName="emailNotifications" />
+          Email notifications
+        </label>
+      </div>
+
+      <div class="field checkbox">
+        <label>
+          <input type="checkbox" formControlName="pushNotifications" />
+          Push notifications
+        </label>
+      </div>
+
+      <button class="btn-primary" type="submit">Save preferences</button>
+    </form>
+  </section>
+
+  <hr />
+
+  <section>
+    <h2>Change password</h2>
+
+    @if (passwordSaved()) {
+      <div class="alert-success">Password updated.</div>
+    }
+    @if (passwordError()) {
+      <div class="alert-error">{{ passwordError() }}</div>
+    }
+
+    <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+      <div class="field">
+        <label for="currentPassword">Current password</label>
+        <input id="currentPassword" type="password" formControlName="currentPassword" autocomplete="current-password" />
+      </div>
+
+      <div class="field">
+        <label for="newPassword">New password</label>
+        <input id="newPassword" type="password" formControlName="newPassword" autocomplete="new-password" />
+        @if (passwordForm.controls.newPassword.invalid && passwordForm.controls.newPassword.touched) {
+          <span class="error">Password must be at least 6 characters.</span>
+        }
+      </div>
+
+      <button class="btn-primary" type="submit">Update password</button>
+    </form>
+  </section>
+
+  <hr />
+
+  <section>
+    <h2>Danger zone</h2>
+    <p class="muted">Deleting your account permanently removes your profile and settings.</p>
+
+    @if (!showDeleteConfirm()) {
+      <button class="btn-danger" type="button" (click)="showDeleteConfirm.set(true)">
+        Delete account
+      </button>
+    } @else {
+      <div class="confirm-box">
+        <p>Are you sure? This cannot be undone.</p>
+        <button class="btn-danger" type="button" (click)="confirmDelete()">Yes, delete my account</button>
+        <button type="button" (click)="showDeleteConfirm.set(false)">Cancel</button>
+      </div>
+    }
+  </section>
+</div>
