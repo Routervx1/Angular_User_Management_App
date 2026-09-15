@@ -1,0 +1,17 @@
+<nav class="navbar">
+  <span class="brand">UserApp</span>
+
+  @if (auth.isAuthenticated()) {
+    <div class="links">
+      <a routerLink="/profile" routerLinkActive="active">Profile</a>
+      <a routerLink="/settings" routerLinkActive="active">Settings</a>
+      <span class="user">{{ auth.profile()?.fullName }}</span>
+      <button type="button" (click)="logout()">Log out</button>
+    </div>
+  } @else {
+    <div class="links">
+      <a routerLink="/login" routerLinkActive="active">Log in</a>
+      <a routerLink="/register" routerLinkActive="active">Register</a>
+    </div>
+  }
+</nav>
